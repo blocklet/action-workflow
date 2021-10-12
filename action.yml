@@ -1,0 +1,52 @@
+name: 'Blocklet workflow'
+description: 'Workflow for develop blocklet'
+inputs:
+  bundle-command:
+    description: 'Blocklet bundle command'
+    required: true
+  registry-endpoint:
+    description: 'Endpoint of abtnode'
+    required: true
+  access-token:
+    description: 'Access token of blocklet registry'
+    required: false
+  developer-sk:
+    description: 'Developer-sk of blocklet registry'
+    required: false
+  abtnode-endpoint:
+    description: 'Endpoint of abtnode'
+    required: true
+  access-key:
+    description: 'Access key of abtnode'
+    required: true
+  access-secret:
+    description: 'Access secret of abtnode'
+    required: true
+  slack-webhook:
+    description: 'Webhook of slack'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Prepare abtnode
+      run: yarn global add @abtnode/cli
+      shell: bash
+    - name: Bundle blocklet
+      run: ${{ inputs.bundle-command }}
+      shell: bash
+    - name: Upload blocklet to registry
+      uses: blocklet/action-upload@v0.1.9
+      with:
+        endpoint: ${{ inputs.registry-endpoint }}
+        access-token: ${{ inputs.access-token }}
+    - name: Deploy blocklet to abtnode
+      uses: blocklet/action-deploy@v0.1.9
+      with:
+        endpoint: ${{ inputs.abtnode-endpoint }}
+        slack-webhook: ${{ inputs.slack-webhook }}
+        access-key: ${{ inputs.access-key }}
+        access-secret: ${{ inputs.access-secret }}
+    - name: Create blocklet release to github
+      uses: blocklet/action-release-to-github@v1.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
