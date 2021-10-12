@@ -25,6 +25,9 @@ inputs:
   slack-webhook:
     description: 'Webhook of slack'
     required: false
+  github-token:
+    description: 'Github token'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -35,12 +38,12 @@ runs:
       run: ${{ inputs.bundle-command }}
       shell: bash
     - name: Upload blocklet to registry
-      uses: blocklet/action-upload@v0.1.9
+      uses: blocklet/action-upload@v0.2.0
       with:
         endpoint: ${{ inputs.registry-endpoint }}
         access-token: ${{ inputs.access-token }}
     - name: Deploy blocklet to abtnode
-      uses: blocklet/action-deploy@v0.1.9
+      uses: blocklet/action-deploy@v0.2.0
       with:
         endpoint: ${{ inputs.abtnode-endpoint }}
         slack-webhook: ${{ inputs.slack-webhook }}
@@ -49,4 +52,4 @@ runs:
     - name: Create blocklet release to github
       uses: blocklet/action-release-to-github@v1.0.0
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.github-token }}
