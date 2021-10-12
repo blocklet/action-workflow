@@ -38,7 +38,7 @@ runs:
       run: ${{ inputs.bundle-command }}
       shell: bash
     - name: Upload blocklet to registry
-      uses: blocklet/action-upload@v0.2.0
+      uses: blocklet/action-upload@v0.2.1
       with:
         endpoint: ${{ inputs.registry-endpoint }}
         access-token: ${{ inputs.access-token }}
