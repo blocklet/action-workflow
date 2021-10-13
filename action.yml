@@ -53,14 +53,14 @@ runs:
       run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
       shell: bash
     - name: Upload blocklet to registry
-      uses: blocklet/action-upload@v0.2.2
+      uses: blocklet/action-upload@v0.2.3
       with:
         endpoint: ${{ inputs.registry-endpoint }}
         access-token: ${{ inputs.access-token }}
         developer-sk: ${{ inputs.developer-sk }}
         skip: ${{ inputs.skip-upload }}
     - name: Deploy blocklet to abtnode
-      uses: blocklet/action-deploy@v0.2.1
+      uses: blocklet/action-deploy@v0.2.2
       with:
         endpoint: ${{ inputs.abtnode-endpoint }}
         slack-webhook: ${{ inputs.slack-webhook }}
@@ -68,7 +68,7 @@ runs:
         access-secret: ${{ inputs.access-secret }}
         skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
-      uses: blocklet/action-release-to-github@v1.1.0
+      uses: blocklet/action-release-to-github@v1.1.1
       with:
         token: ${{ inputs.github-token }}
         skip: ${{ inputs.skip-release }}
