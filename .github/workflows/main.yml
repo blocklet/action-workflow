@@ -23,7 +23,5 @@ jobs:
         run: |
           git config --local user.name "bot"
           git config --local user.email "bot@arcblock.io"
-          git add dist
-          git commit --allow-empty -m "Github action build"
           git tag -a v${{ steps.package-version.outputs.current-version}} -m "Release ${{ steps.package-version.outputs.current-version}}"
-          git push --follow-tags
+          git push origin v${{ steps.package-version.outputs.current-version}}
