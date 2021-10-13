@@ -68,7 +68,7 @@ runs:
         access-secret: ${{ inputs.access-secret }}
         skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
-      uses: blocklet/action-release-to-github@v1.1
+      uses: blocklet/action-release-to-github@v1
       with:
         token: ${{ inputs.github-token }}
         skip: ${{ inputs.skip-release }}
