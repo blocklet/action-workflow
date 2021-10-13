@@ -22,14 +22,23 @@ jobs:
       - name: Build
         run: <build_your_blocklet> # after build, use `abtnode bundle --create-release` to bundle your blocklet
       - name: Release to Github
-        uses: blocklet/action-workflow@v0.1.0
+        uses: blocklet/action-workflow@v0.2.0
         with:
+          # skip-abtnode: true  # skip prepare abtnode step
+          # bundle
+          # skip-bundle: true  # skip bundle blocklet step
           bundle-command: yarn build && blocklet bundle --create-release
+          # upload
+          # skip-upload: true  # skip upload blocklet step
           registry-endpoint: ${{ secrets.STAGING_REGISTRY }}
-          developer-sk: ${{ secrets.ABTNODE_DEV_STAGING_SK }}
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          developer-sk: ${{ secrets.ABTNODE_DEV_STAGING_SK }} # or replace with access-token: ${{ secrets.ACCESS_TOKEN }}  # (new abtnode upload flow)
+          # deploy
+          # skip-deploy: true  # skip deploy blocklet to abtnode step
           abtnode-endpoint: ${{ secrets.STAGING_NODE_ENDPOINT }}
           access-key: ${{ secrets.STAGING_NODE_ACCESS_KEY }}
           access-secret: ${{ secrets.STAGING_NODE_ACCESS_SECRET }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }} # optional, if empty, will not send slack notification
+          # release
+          # skip-release: true  # skip prepare abtnode step
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

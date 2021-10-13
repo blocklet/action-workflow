@@ -28,11 +28,11 @@ inputs:
   github-token:
     description: 'Github token'
     required: true
-  skip-bundle:
-    description: 'Skip bundle'
-    default: false
   skip-abtnode:
     description: 'Skip prepare @abtnode/cli'
+    default: false
+  skip-bundle:
+    description: 'Skip bundle'
     default: false
   skip-upload:
     description: 'Skip upload blocklet to blocklet registry'
