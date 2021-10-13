@@ -1,0 +1,16 @@
+{
+  "name": "action-workflow",
+  "version": "0.1.4",
+  "description": "Github action for develop blocklet workflow",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blocklet/action-workflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blocklet/action-workflow/issues"
+  },
+  "homepage": "https://github.com/blocklet/action-workflow#readme"
+}

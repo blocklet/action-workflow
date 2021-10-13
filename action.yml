@@ -28,29 +28,47 @@ inputs:
   github-token:
     description: 'Github token'
     required: true
+  skip-bundle:
+    description: 'Skip bundle'
+    default: false
+  skip-abtnode:
+    description: 'Skip prepare @abtnode/cli'
+    default: false
+  skip-upload:
+    description: 'Skip upload blocklet to blocklet registry'
+    default: false
+  skip-deploy:
+    description: 'Skip deploy blocklet to abtnode'
+    default: false
+  skip-release:
+    description: 'Skip release blocklet to github'
+    default: false
 runs:
   using: 'composite'
   steps:
     - name: Prepare abtnode
-      run: yarn global add @abtnode/cli
+      run: if ${{inputs.skip-abtnode}}; then echo 'Skip prepare @abtnode/cli' else yarn global add @abtnode/cli fi
       shell: bash
     - name: Bundle blocklet
-      run: ${{ inputs.bundle-command }}
+      run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
       shell: bash
     - name: Upload blocklet to registry
-      uses: blocklet/action-upload@v0.2.1
+      uses: blocklet/action-upload@v0.2
       with:
         endpoint: ${{ inputs.registry-endpoint }}
         access-token: ${{ inputs.access-token }}
         developer-sk: ${{ inputs.developer-sk }}
+        skip: ${{ inputs.skip-upload }}
     - name: Deploy blocklet to abtnode
-      uses: blocklet/action-deploy@v0.2.0
+      uses: blocklet/action-deploy@v0.2
       with:
         endpoint: ${{ inputs.abtnode-endpoint }}
         slack-webhook: ${{ inputs.slack-webhook }}
         access-key: ${{ inputs.access-key }}
         access-secret: ${{ inputs.access-secret }}
+        skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
-      uses: blocklet/action-release-to-github@v1.0.0
+      uses: blocklet/action-release-to-github@v1.1
       with:
         token: ${{ inputs.github-token }}
+        skip: ${{ inputs.skip-release }}
