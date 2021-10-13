@@ -47,7 +47,7 @@ runs:
   using: 'composite'
   steps:
     - name: Prepare abtnode
-      run: if ${{inputs.skip-abtnode}}; then echo 'Skip prepare @abtnode/cli' else yarn global add @abtnode/cli fi
+      run: if ${{inputs.skip-abtnode}}; then echo 'Skip prepare @abtnode/cli'; else yarn global add @abtnode/cli; fi
       shell: bash
     - name: Bundle blocklet
       run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
