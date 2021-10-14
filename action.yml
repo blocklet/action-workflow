@@ -3,6 +3,7 @@ description: 'Workflow for develop blocklet'
 inputs:
   bundle-command:
     description: 'Blocklet bundle command'
+    default: 'echo "Echo from bundle command"'
     required: true
   registry-endpoint:
     description: 'Endpoint of abtnode'
@@ -36,10 +37,10 @@ inputs:
     default: false
   skip-upload:
     description: 'Skip upload blocklet to blocklet registry'
-    default: false
+    default: true
   skip-deploy:
     description: 'Skip deploy blocklet to abtnode'
-    default: false
+    default: true
   skip-release:
     description: 'Skip release blocklet to github'
     default: false
