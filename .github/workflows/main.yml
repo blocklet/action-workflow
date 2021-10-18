@@ -1,4 +1,6 @@
 name: Github release
+env:
+  MAIN_VERSION: 1
 
 on:
   push:
@@ -19,9 +21,18 @@ jobs:
         id: package-version
         uses: martinbeentjes/npm-get-version-action@master
 
-      - name: Publish dist
+      - name: Config git
         run: |
           git config --local user.name "bot"
           git config --local user.email "bot@arcblock.io"
-          git tag -a v${{ steps.package-version.outputs.current-version}} -m "Release ${{ steps.package-version.outputs.current-version}}"
-          git push origin v${{ steps.package-version.outputs.current-version}}
+
+      - name: Realese
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.package-version.outputs.current-version}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Reset v${{ env.MAIN_VERSION }}
+        run: |
+          git tag -a v${{ env.MAIN_VERSION }} -m 'Sync with v${{ steps.package-version.outputs.current-version}}'
+          git push origin v${{ env.MAIN_VERSION }} --force
