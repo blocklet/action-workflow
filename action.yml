@@ -44,6 +44,9 @@ inputs:
   skip-release:
     description: 'Skip release blocklet to github'
     default: false
+  working-directory:
+    description: 'Set default working directory'
+    default: ./
 runs:
   using: 'composite'
   steps:
@@ -51,9 +54,11 @@ runs:
       run: if ${{inputs.skip-abtnode}}; then echo 'Skip prepare @abtnode/cli'; else yarn global add @abtnode/cli; fi
       shell: bash
     - name: Bundle blocklet
+      working-directory: ${{ inputs.working-directory }}
       run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
       shell: bash
     - name: Upload blocklet to registry
+      working-directory: ${{ inputs.working-directory }}
       uses: blocklet/action-upload@v0.2.3
       with:
         endpoint: ${{ inputs.registry-endpoint }}
@@ -61,6 +66,7 @@ runs:
         developer-sk: ${{ inputs.developer-sk }}
         skip: ${{ inputs.skip-upload }}
     - name: Deploy blocklet to abtnode
+      working-directory: ${{ inputs.working-directory }}
       uses: blocklet/action-deploy@v0.2.2
       with:
         endpoint: ${{ inputs.abtnode-endpoint }}
@@ -69,6 +75,7 @@ runs:
         access-secret: ${{ inputs.access-secret }}
         skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
+      working-directory: ${{ inputs.working-directory }}
       uses: blocklet/action-release-to-github@v1.1.2
       with:
         token: ${{ inputs.github-token }}
