@@ -44,6 +44,9 @@ inputs:
   skip-release:
     description: 'Skip release blocklet to github'
     default: false
+  skip-readme:
+    description: 'Skip update readme'
+    default: false
   working-directory:
     description: 'Set default working directory'
     default: ./
@@ -80,3 +83,4 @@ runs:
         working-directory: ${{ inputs.working-directory }}
         token: ${{ inputs.github-token }}
         skip: ${{ inputs.skip-release }}
+        skip-readme: ${{ inputs.skip-readme }}

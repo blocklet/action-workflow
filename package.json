@@ -1,6 +1,6 @@
 {
   "name": "action-workflow",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Github action for develop blocklet workflow",
   "repository": {
     "type": "git",
