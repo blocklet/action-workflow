@@ -5,14 +5,14 @@ inputs:
     description: 'Blocklet bundle command'
     default: 'echo "Echo from bundle command"'
     required: true
-  registry-endpoint:
+  store-endpoint:
     description: 'Endpoint of abtnode'
     required: true
-  access-token:
-    description: 'Access token of blocklet registry'
+  store-access-token:
+    description: 'Access token of blocklet store'
     required: false
   developer-sk:
-    description: 'Developer-sk of blocklet registry'
+    description: 'Developer-sk of blocklet store'
     required: false
   abtnode-endpoint:
     description: 'Endpoint of abtnode'
@@ -36,7 +36,7 @@ inputs:
     description: 'Skip bundle'
     default: false
   skip-upload:
-    description: 'Skip upload blocklet to blocklet registry'
+    description: 'Skip upload blocklet to blocklet store'
     default: true
   skip-deploy:
     description: 'Skip deploy blocklet to abtnode'
@@ -60,12 +60,12 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
       shell: bash
-    - name: Upload blocklet to registry
+    - name: Upload blocklet to store
       uses: blocklet/action-upload@v1
       with:
         working-directory: ${{ inputs.working-directory }}
-        endpoint: ${{ inputs.registry-endpoint }}
-        access-token: ${{ inputs.access-token }}
+        endpoint: ${{ inputs.store-endpoint }}
+        access-token: ${{ inputs.store-access-token }}
         developer-sk: ${{ inputs.developer-sk }}
         skip: ${{ inputs.skip-upload }}
     - name: Deploy blocklet to abtnode
