@@ -1,36 +1,38 @@
 name: 'Blocklet workflow'
 description: 'Workflow for develop blocklet'
 inputs:
+  # bundle
   bundle-command:
     description: 'Blocklet bundle command'
     default: 'echo "Echo from bundle command"'
     required: true
+  # upload
   store-endpoint:
-    description: 'Endpoint of abtnode'
+    description: 'Endpoint of blocklet store'
     required: true
   store-access-token:
     description: 'Access token of blocklet store'
     required: false
-  developer-sk:
-    description: 'Developer-sk of blocklet store'
-    required: false
-  abtnode-endpoint:
-    description: 'Endpoint of abtnode'
+  # deploy
+  server-endpoint:
+    description: 'Endpoint of blocklet server'
     required: true
-  access-key:
-    description: 'Access key of abtnode'
+  server-access-key:
+    description: 'Access key of blocklet server'
     required: true
-  access-secret:
-    description: 'Access secret of abtnode'
+  server-access-secret:
+    description: 'Access secret of blocklet server'
     required: true
   slack-webhook:
     description: 'Webhook of slack'
     required: false
+  # release
   github-token:
     description: 'Github token'
     required: true
-  skip-abtnode:
-    description: 'Skip prepare @abtnode/cli'
+  # skip
+  skip-deps:
+    description: 'Skip prepare @blocklet/cli'
     default: false
   skip-bundle:
     description: 'Skip bundle'
@@ -39,7 +41,7 @@ inputs:
     description: 'Skip upload blocklet to blocklet store'
     default: true
   skip-deploy:
-    description: 'Skip deploy blocklet to abtnode'
+    description: 'Skip deploy blocklet to blocklet server'
     default: true
   skip-release:
     description: 'Skip release blocklet to github'
@@ -47,35 +49,60 @@ inputs:
   skip-readme:
     description: 'Skip update readme'
     default: false
+  # working directory
   working-directory:
     description: 'Set default working directory'
     default: ./
+
+  # Alias upload
+  registry-endpoint:
+    description: 'Alias of store-endpoint'
+    required: true
+  access-token:
+    description: 'Alias of store-access-token'
+    required: false
+  developer-sk:
+    description: 'Alias of store-access-token'
+    required: false
+  # Alias deploy
+  abtnode-endpoint:
+    description: 'Endpoint of blocklet server'
+    required: true
+  access-key:
+    description: 'Access key of blocklet server'
+    required: true
+  access-secret:
+    description: 'Access secret of blocklet server'
+    required: true
+  # Alias deps
+  skip-abtnode:
+    description: 'Alias of skip-deps'
+    default: false
 runs:
   using: 'composite'
   steps:
-    - name: Prepare abtnode
-      run: if ${{inputs.skip-abtnode}}; then echo 'Skip prepare @abtnode/cli'; else yarn global add @abtnode/cli; fi
+    - name: Prepare blocklet cli deps
+      run: if ${{inputs.skip-deps || inputs.skip-abtnode}}; then echo 'Skip prepare @blocklet/cli'; else yarn global add @blocklet/cli; fi
       shell: bash
     - name: Bundle blocklet
       working-directory: ${{ inputs.working-directory }}
       run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
       shell: bash
-    - name: Upload blocklet to store
+    - name: Upload blocklet to blocklet store
       uses: blocklet/action-upload@v1
       with:
         working-directory: ${{ inputs.working-directory }}
-        endpoint: ${{ inputs.store-endpoint }}
-        access-token: ${{ inputs.store-access-token }}
-        developer-sk: ${{ inputs.developer-sk }}
+        endpoint: ${{ inputs.store-endpoint || inputs.registry-endpoint }}
+        access-token: ${{ inputs.store-access-token || inputs.developer-sk }}
         skip: ${{ inputs.skip-upload }}
-    - name: Deploy blocklet to abtnode
+    - name: Deploy blocklet to blocklet server
       uses: blocklet/action-deploy@v1
       with:
         working-directory: ${{ inputs.working-directory }}
-        endpoint: ${{ inputs.abtnode-endpoint }}
+        endpoint: ${{ inputs.server-endpoint || inputs.abtnode-endpoint }}
+        access-key: ${{ inputs.server-access-key || inputs.access-key }}
+        access-secret: ${{ inputs.server-access-secret || inputs.access-secret }}
         slack-webhook: ${{ inputs.slack-webhook }}
-        access-key: ${{ inputs.access-key }}
-        access-secret: ${{ inputs.access-secret }}
         skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
       uses: blocklet/action-release-to-github@v1

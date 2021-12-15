@@ -1,6 +1,7 @@
 name: Github release
 env:
-  MAIN_VERSION: 1.1
+  MAIN_VERSION: 1
+  SECOND_VERSION: 1.1
 
 on:
   push:
@@ -36,3 +37,8 @@ jobs:
         run: |
           git tag -a v${{ env.MAIN_VERSION }} -m 'Sync with v${{ steps.package-version.outputs.current-version}}'
           git push origin v${{ env.MAIN_VERSION }} --force
+
+      - name: Reset v${{ env.SECOND_VERSION }}
+        run: |
+          git tag -a v${{ env.SECOND_VERSION }} -m 'Sync with v${{ steps.package-version.outputs.current-version}}'
+          git push origin v${{ env.SECOND_VERSION }} --force

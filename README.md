@@ -30,15 +30,16 @@ jobs:
           bundle-command: yarn build && blocklet bundle --create-release
           # upload
           # skip-upload: false  # default is true, skip upload blocklet step
-          registry-endpoint: ${{ secrets.STAGING_REGISTRY }}
-          developer-sk: ${{ secrets.ABTNODE_DEV_STAGING_SK }} # or replace with access-token: ${{ secrets.ACCESS_TOKEN }}  # (new abtnode upload flow)
+          store-endpoint: ${{ secrets.STAGING_REGISTRY }} # Alias: registry-endpoint
+          store-access-token: ${{ secrets.ABTNODE_DEV_STAGING_SK }} # Alias: developer-sk, access-token
           # deploy
           # skip-deploy: false  # default is true, skip deploy blocklet to abtnode step
-          abtnode-endpoint: ${{ secrets.STAGING_NODE_ENDPOINT }}
-          access-key: ${{ secrets.STAGING_NODE_ACCESS_KEY }}
-          access-secret: ${{ secrets.STAGING_NODE_ACCESS_SECRET }}
+          server-endpoint: ${{ secrets.STAGING_NODE_ENDPOINT }} # Alias: abtnode-endpoint
+          server-access-key: ${{ secrets.STAGING_NODE_ACCESS_KEY }} # Alias: access-key
+          server-access-secret: ${{ secrets.STAGING_NODE_ACCESS_SECRET }} # Alias: access-secret
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }} # optional, if empty, will not send slack notification
           # release
           # skip-release: true  # default is false, set true to skip release blocklet to github
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # skip-readme: true  # default is false, set true to skip update readme
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
