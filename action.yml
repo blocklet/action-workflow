@@ -82,7 +82,7 @@ runs:
   using: 'composite'
   steps:
     - name: Prepare blocklet cli deps
-      run: if ${{inputs.skip-deps || inputs.skip-abtnode}}; then echo 'Skip prepare @blocklet/cli'; else yarn global add @blocklet/cli; fi
+      run: if ${{inputs.skip-deps || inputs.skip-abtnode}}; then echo 'Skip prepare @blocklet/cli'; else npm i -g @blocklet/cli; fi
       shell: bash
     - name: Bundle blocklet
       working-directory: ${{ inputs.working-directory }}
