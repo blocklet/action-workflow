@@ -82,11 +82,11 @@ runs:
   using: 'composite'
   steps:
     - name: Prepare blocklet cli deps
-      run: if ${{inputs.skip-deps || inputs.skip-abtnode}}; then echo 'Skip prepare @blocklet/cli'; else npm i -g @blocklet/cli; fi
+      run: if ${{ inputs.skip-deps || inputs.skip-abtnode }}; then echo 'Skip prepare @blocklet/cli'; else npm i -g @blocklet/cli; fi
       shell: bash
     - name: Bundle blocklet
       working-directory: ${{ inputs.working-directory }}
-      run: if ${{inputs.skip-bundle}}; then echo 'Skip bundle'; else ${{inputs.bundle-command}}; fi
+      run: if ${{ inputs.skip-bundle }}; then echo 'Skip bundle'; else ${{ inputs.bundle-command }}; fi
       shell: bash
     - name: Upload blocklet to blocklet store
       uses: blocklet/action-upload@v1
