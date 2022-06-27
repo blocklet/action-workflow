@@ -26,6 +26,12 @@ inputs:
   slack-webhook:
     description: 'Webhook of slack'
     required: false
+  deploy-app-did:
+    description: 'Deploy as a app child blocklet'
+    required: false
+  deploy-mount-point:
+    description: 'If is a child blocklet, need setup a mount point'
+    required: false
   # release
   github-token:
     description: 'Github token'
@@ -103,6 +109,8 @@ runs:
         access-key: ${{ inputs.server-access-key || inputs.access-key }}
         access-secret: ${{ inputs.server-access-secret || inputs.access-secret }}
         slack-webhook: ${{ inputs.slack-webhook }}
+        app-did: ${{ inputs.deploy-app-did }}
+        mount-point: ${{ inputs.deploy-mount-point }}
         skip: ${{ inputs.skip-deploy }}
     - name: Create blocklet release to github
       uses: blocklet/action-release-to-github@v1
