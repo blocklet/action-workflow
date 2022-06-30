@@ -13,6 +13,9 @@ inputs:
   store-access-token:
     description: 'Access token of blocklet store'
     required: false
+  store-developer-did:
+    description: 'DeveloperDid of blocklet store'
+    required: false
   # deploy
   server-endpoint:
     description: 'Endpoint of blocklet server'
@@ -100,6 +103,7 @@ runs:
         working-directory: ${{ inputs.working-directory }}
         endpoint: ${{ inputs.store-endpoint || inputs.registry-endpoint }}
         access-token: ${{ inputs.store-access-token || inputs.developer-sk }}
+        developer-did: ${{ inputs.store-developer-did }}
         skip: ${{ inputs.skip-upload }}
     - name: Deploy blocklet to blocklet server
       uses: blocklet/action-deploy@v1
