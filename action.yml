@@ -1,6 +1,14 @@
 name: 'Blocklet workflow'
 description: 'Workflow for develop blocklet'
 inputs:
+  deps-npm-client:
+    description: 'deps npm client'
+    default: 'yarn'
+    required: false
+  deps-server-version:
+    description: 'Setup blocklet-server version'
+    default: 'latest'
+    required: false
   # bundle
   bundle-command:
     description: 'Blocklet bundle command'
@@ -91,7 +99,9 @@ runs:
   using: 'composite'
   steps:
     - name: Prepare blocklet cli deps
-      run: if ${{ inputs.skip-deps == 'true' || inputs.skip-abtnode == 'true' }}; then echo 'Skip prepare @blocklet/cli'; else yarn global add @blocklet/cli; fi
+      if: ${{ inputs.skip-deps != 'true' || inputs.skip-abtnode != 'true' }}
+      run: |
+        if ${{inputs.deps-npm-client == 'pnpm'}} ; then pnpm install -g @blocklet/cli@${{ inputs.deps-server-version}}; elif ${{ inputs.deps-npm-client == 'yarn' }} ; then yarn global add @blocklet/cli@${{ inputs.deps-server-version}}; else npm install -g @blocklet/cli@${{ inputs.deps-server-version}} ; fi
       shell: bash
     - name: Bundle blocklet
       working-directory: ${{ inputs.working-directory }}
