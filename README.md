@@ -51,4 +51,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-View complete document is here: [Blocklet Actions](https://developer.blocklet.io/docs/en/reference/blocklet-actions)
+View complete document is here: [Blocklet Actions](https://www.arcblock.io/docs/blocklet-developer/en/blocklet-actions)
