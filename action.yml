@@ -101,7 +101,7 @@ runs:
     - name: Prepare blocklet cli deps
       if: ${{ inputs.skip-deps != 'true' && inputs.skip-abtnode != 'true' }}
       run: |
-        if ${{inputs.deps-npm-client == 'pnpm'}} ; then pnpm install -g @blocklet/cli@${{ inputs.deps-server-version}}; elif ${{ inputs.deps-npm-client == 'yarn' }} ; then yarn global add @blocklet/cli@${{ inputs.deps-server-version}}; else npm install -g @blocklet/cli@${{ inputs.deps-server-version}} ; fi
+        if ${{inputs.deps-npm-client == 'pnpm'}} ; then pnpm install -g --allow-build=sqlite3 @blocklet/cli@${{ inputs.deps-server-version}}; elif ${{ inputs.deps-npm-client == 'yarn' }} ; then yarn global add @blocklet/cli@${{ inputs.deps-server-version}}; else npm install -g @blocklet/cli@${{ inputs.deps-server-version}} ; fi
       shell: bash
     - name: Bundle blocklet
       working-directory: ${{ inputs.working-directory }}

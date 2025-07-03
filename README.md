@@ -25,6 +25,7 @@ jobs:
         with:
           # prepare step
           # skip-deps: true  # default is false, set true to skip prepare @blocklet/cli step  Alias: skip-abtnode
+          deps-npm-client: pnpm # default is yarn
 
           # bundle step
           # skip-bundle: true  # default is false, set true to skip bundle blocklet step
